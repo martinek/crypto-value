@@ -194,6 +194,13 @@ class Editor extends Component {
                             <span className="fas fa-plus" />
                         </span>
                     </button>
+                    <hr />
+                    <div className="field">
+                        <label className="label">Bought for</label>
+                        <p className="control">
+                            <input className="input has-text-right" type="number" value={this.state.investment || '0'} onChange={e => this.handleChange('investment', e.target.value)} />
+                        </p>
+                    </div>
                 </div>
             </div>
         );

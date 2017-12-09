@@ -36,16 +36,24 @@ Item.propTypes = {
     tSym: PropTypes.string,
 };
 
-const Sum = ({value, tSym}) => {
+const Sum = ({value, tSym, difference}) => {
     return (
         <div className="level is-mobile total">
             <div className="level-left">Total</div>
-            <div className="level-right">{fPrice(value, tSym)}</div>
+            <div className="level-right">
+                <div className="has-text-right">
+                    <p>{fPrice(value, tSym)}</p>
+                    <p className={`small has-text-${difference > 0 ? 'success' : 'danger'}`}>
+                        {difference > 0 ? '+' : '-'}{fPrice(difference, tSym)}
+                    </p>
+                </div>
+            </div>
         </div>
     );
 };
 Sum.propTypes = { 
     value: PropTypes.number,
+    difference: PropTypes.number,
     tSym: PropTypes.string,
 };
 
@@ -70,6 +78,14 @@ class Calculator extends Component {
         return _.get(this, 'props.userData.tSym');
     }
 
+    investment() {
+        return _.get(this, 'props.userData.investment');
+    }
+
+    difference() {
+        this;
+    }
+
     fetchPrices() {
         DataSource.fetchPrices(this.state.items.map(i => i.sym), [this.tSym()], _.get(this, 'props.userData.exchange'))
             .then(prices => this.updateValues(prices));
@@ -85,6 +101,8 @@ class Calculator extends Component {
 
     render() {
         const tSym = this.tSym();
+        const total = this.state.items.reduce((acc, item) => acc += item.value, 0);
+        const difference = total - Number(this.investment());
 
         return (
             <div className="card main-card">
@@ -113,7 +131,11 @@ class Calculator extends Component {
                         )
                     }
 
-                    <Sum value={this.state.items.reduce((acc, item) => acc += item.value, 0)} tSym={tSym} />
+                    <Sum 
+                        value={total} 
+                        difference={difference}
+                        tSym={tSym} 
+                    />
                 </div>
             </div>
         );
