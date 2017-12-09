@@ -3,6 +3,7 @@ import { Provider } from 'react-redux';
 import { Switch, Route, BrowserRouter } from 'react-router-dom';
 
 import store from 'lib/store';
+import modal from 'lib/modal';
 
 import LayoutContainer from 'components/layout/LayoutContainer';
 import Calculator from 'components/Calculator';

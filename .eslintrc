@@ -8,7 +8,10 @@
         "eslint:recommended",
         "plugin:react/recommended"
     ],
-    "globals": {},
+    "globals": {
+        "BUILD": true,
+        "modal": true
+    },
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true,

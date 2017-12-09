@@ -40,7 +40,20 @@
         margin-bottom: 1em;
     }
 
-    .version {
+    .version, .donation {
         font-size: 0.8em;
+    }
+}
+
+.donation-info {
+    color: white;
+
+    img {
+        max-width: 300px;
+        margin-bottom: 2em;
+    }
+
+    .fa-bitcoin {
+        margin-right: 0.5em;
     }
 }

@@ -17,6 +17,17 @@ const LayoutContainer = ({children}) => (
                             Market&nbsp;data&nbsp;by&nbsp;<a href="https://www.cryptocompare.com/" target="new">cryptocompare.com</a>
                     </p>
                     <p className="version">Version: {BUILD.VERSION}</p>
+                    <p className="donation" onClick={() => modal(
+                        <div className="message is-info donation-info has-text-centered">
+                            <div className="message-body">
+                                <img src="1457PgXio7wV8vQmD1dxpBLNGUaAfDjSUV.png" />
+                                <p>
+                                    <span className="fab fa-bitcoin" />
+                                    <span>1457PgXio7wV8vQmD1dxpBLNGUaAfDjSUV</span>
+                                </p>
+                            </div>
+                        </div>
+                    )}>Donate BTC</p>
                 </div>
             </footer>     
         </div>
