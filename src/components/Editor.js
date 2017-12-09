@@ -196,7 +196,7 @@ class Editor extends Component {
                         </span>
                     </button>
                     <hr />
-                    <label className="label">Bought for</label>
+                    <label className="label">Total investment</label>
                     <div className="field has-addons is-fullwidth">
                         <p className="control is-expanded">
                             <input className="input has-text-right" type="number" value={this.state.investment || '0'} onChange={e => this.handleChange('investment', e.target.value)} />
