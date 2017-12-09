@@ -58,6 +58,7 @@ class Editor extends Component {
         this.state = Object.assign({
             exchange: '',
             tSym: '',
+            investment: '',
             items: [],
         }, props.userData);
 
@@ -154,7 +155,7 @@ class Editor extends Component {
                     <div className="field">
                         <label className="label">Exchange</label>
                         <p className="control">
-                            <span className="select">
+                            <span className="select is-fullwidth">
                                 <select value={this.state.exchange || ''} onChange={e => this.handleChange('exchange', e.target.value)}>
                                     {_.keys(this.props.exchanges).sort().map(ex => 
                                         <option key={ex} value={ex}>{ex}</option>
@@ -167,7 +168,7 @@ class Editor extends Component {
                     <div className="field">
                         <label className="label">Display symbol</label>
                         <p className="control">
-                            <span className="select">
+                            <span className="select is-fullwidth">
                                 <select value={this.state.tSym || ''} onChange={e => this.handleChange('tSym', e.target.value)}>
                                     {this.tSyms().map(tSym => 
                                         <option key={tSym} value={tSym}>{tSym}</option>
@@ -195,10 +196,15 @@ class Editor extends Component {
                         </span>
                     </button>
                     <hr />
-                    <div className="field">
-                        <label className="label">Bought for</label>
-                        <p className="control">
+                    <label className="label">Bought for</label>
+                    <div className="field has-addons is-fullwidth">
+                        <p className="control is-expanded">
                             <input className="input has-text-right" type="number" value={this.state.investment || '0'} onChange={e => this.handleChange('investment', e.target.value)} />
+                        </p>
+                        <p className="control">
+                            <a className="button is-static">
+                                {this.state.tSym || ''}
+                            </a>
                         </p>
                     </div>
                 </div>

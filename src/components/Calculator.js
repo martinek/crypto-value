@@ -36,16 +36,18 @@ Item.propTypes = {
     tSym: PropTypes.string,
 };
 
-const Sum = ({value, tSym, difference}) => {
+const Sum = ({value, tSym, difference, differencePerc}) => {
     return (
         <div className="level is-mobile total">
             <div className="level-left">Total</div>
             <div className="level-right">
                 <div className="has-text-right">
                     <p>{fPrice(value, tSym)}</p>
-                    <p className={`small has-text-${difference > 0 ? 'success' : 'danger'}`}>
-                        {difference > 0 ? '+' : '-'}{fPrice(difference, tSym)}
-                    </p>
+                    {difference !== null && (
+                        <p className={`small has-text-${difference >= 0 ? 'success' : 'danger'}`}>
+                            {difference > 0 ? '+' : ''}{fPrice(difference, tSym)} ({differencePerc > 0 ? '+' : ''}{differencePerc.toFixed(2)}%)
+                        </p>
+                    )}
                 </div>
             </div>
         </div>
@@ -54,6 +56,7 @@ const Sum = ({value, tSym, difference}) => {
 Sum.propTypes = { 
     value: PropTypes.number,
     difference: PropTypes.number,
+    differencePerc: PropTypes.number,
     tSym: PropTypes.string,
 };
 
@@ -79,11 +82,7 @@ class Calculator extends Component {
     }
 
     investment() {
-        return _.get(this, 'props.userData.investment');
-    }
-
-    difference() {
-        this;
+        return _.get(this, 'props.userData.investment', '');
     }
 
     fetchPrices() {
@@ -102,8 +101,9 @@ class Calculator extends Component {
     render() {
         const tSym = this.tSym();
         const total = this.state.items.reduce((acc, item) => acc += item.value, 0);
-        const difference = total - Number(this.investment());
-
+        const difference = this.investment() === '' ? null : total - Number(this.investment());
+        const differencePerc = this.investment() === '' ? null : Number(this.investment()) * 100 / total;
+        
         return (
             <div className="card main-card">
                 <CardHeader>
@@ -134,6 +134,7 @@ class Calculator extends Component {
                     <Sum 
                         value={total} 
                         difference={difference}
+                        differencePerc={differencePerc}
                         tSym={tSym} 
                     />
                 </div>
