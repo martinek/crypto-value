@@ -2,12 +2,15 @@ const webpack = require('webpack');
 const { resolve } = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 
 const env = {
     prod: process.env.NODE_ENV === 'production',
     port: 9000,
 };
+
+const TITLE = 'crypto-value.info';
 
 const addItem = (add, item) => add ? item : undefined;
 const ifProd = item => addItem(env.prod, item);
@@ -72,7 +75,7 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             template: 'index.html.ejs',
-            title: 'CryptoValue',
+            title: TITLE,
         }),
         new ExtractTextPlugin({
             filename: prodDevValue('[name].[chunkhash].css', '[name].css'),
@@ -84,6 +87,9 @@ module.exports = {
             debug: false,
             quiet: true,
         })),
+        new webpack.DefinePlugin({
+            'PAGE_TITLE': JSON.stringify(TITLE),
+        }),
         ifProd(new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production'),
         })),
@@ -92,6 +98,13 @@ module.exports = {
                 screw_ie8: true, // eslint-disable-line
                 warnings: false,
             },
+        })),
+        ifProd(new CopyWebpackPlugin([
+            // relative path is from src
+            { from: '../static' },
+        ], {
+            // ignore hidden files
+            ignore: ['.*'],
         })),
     ]),
     devServer: {
