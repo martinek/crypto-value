@@ -26,7 +26,7 @@ module.exports = {
         ]),
     },
     output: {
-        filename: 'bundle.[name].js',
+        filename: 'bundle.[name].[hash].js',
         path: resolve(__dirname, 'dist'),
         publicPath: '/',
         pathinfo: !env.prod,
@@ -72,6 +72,7 @@ module.exports = {
         new webpack.NoEmitOnErrorsPlugin(),
         new HtmlWebpackPlugin({
             template: 'index.html.ejs',
+            title: 'CryptoValue',
         }),
         new ExtractTextPlugin({
             filename: prodDevValue('[name].[chunkhash].css', '[name].css'),
@@ -84,9 +85,7 @@ module.exports = {
             quiet: true,
         })),
         ifProd(new webpack.DefinePlugin({
-            'process.env': {
-                NODE_ENV: '"production"',
-            },
+            'process.env.NODE_ENV': JSON.stringify('production'),
         })),
         ifProd(new webpack.optimize.UglifyJsPlugin({
             compress: {

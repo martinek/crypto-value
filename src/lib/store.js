@@ -8,6 +8,9 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from 'reducers/rootReducer';
 
+import { loadState, saveState } from './localStorage';
+import throttle from 'lodash.throttle';
+
 /**
  * Redux store enhancer
  *
@@ -41,6 +44,11 @@ const enhancer = isDev ? compose(
 function configureStore(initialState) {
     const store = createStore(rootReducer, initialState, enhancer);
     hotReloadReducers(store);
+
+    store.subscribe(throttle(() => {
+        saveState(store.getState());
+    }, 1000));
+
     return store;
 }
 
@@ -57,5 +65,5 @@ function hotReloadReducers(store) {
 }
 
 // Configure and export store
-const store = configureStore();
+const store = configureStore(loadState());
 export default store;

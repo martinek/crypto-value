@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rimraf dist/*",
-    "dist": "npm run clean; webpack -p",
+    "dist": "npm run clean; NODE_ENV=production webpack -p",
     "start": "webpack-dev-server"
   },
   "keywords": [],
@@ -39,17 +39,21 @@
     "webpack-dev-server": "^2.9.7"
   },
   "dependencies": {
+    "bulma": "^0.6.1",
     "immutability-helper": "^2.1.2",
     "import-glob-loader": "^1.1.0",
+    "lodash": "^4.17.4",
+    "lodash.throttle": "^4.1.1",
     "prop-types": "^15.5.8",
     "react": "^16.1.0",
-    "react-addons-update": "^15.4.2",
+    "react-addons-update": "^15.6.2",
     "react-dom": "^16.1.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "react-redux": "5.0.6",
     "react-router": "^4.0.0",
     "react-router-dom": "^4.0.0",
     "redux": "^3.6.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.8.2"
   }
 }

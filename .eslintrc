@@ -21,6 +21,7 @@
         "react"
     ],
     "rules": {
+        "no-debugger": 0,
         "space-infix-ops": ["error"],
         "comma-dangle": ["error", "always-multiline"],
         "indent": [

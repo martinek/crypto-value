@@ -1,22 +1,24 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Provider } from 'react-redux';
+import { Switch, Route, HashRouter } from 'react-router-dom';
+
 import store from 'lib/store';
-import { HashRouter, Route } from 'react-router-dom';
 
 import LayoutContainer from 'components/layout/LayoutContainer';
+import Calculator from 'components/Calculator';
+import Editor from 'components/Editor';
 
-class App extends Component {
-    render() {
-        return (
-            <Provider store={store}>
-                <HashRouter>
-                    <div>
-                        <Route path="/" component={LayoutContainer} />
-                    </div>
-                </HashRouter>
-            </Provider>
-        );
-    }
-}
+const App = () => (
+    <Provider store={store}>
+        <HashRouter>
+            <LayoutContainer>
+                <Switch>
+                    <Route exact path="/edit" component={Editor} />
+                    <Route path="/" component={Calculator} />
+                </Switch>
+            </LayoutContainer>
+        </HashRouter>
+    </Provider>
+);
 
 export default App;

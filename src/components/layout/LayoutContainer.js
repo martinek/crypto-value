@@ -1,22 +1,18 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 
-class LayoutContainer extends Component {
-    render(){
-        return (
-            <div>EmptyApp</div>
-        );
-    }
-}
+const LayoutContainer = ({children}) => (
+    <section className="hero is-primary is-fullheight is-bold">
+        <div className="hero-body">
+            <div className="container">
+                {children}
+            </div>
+        </div>
+    </section>
+);
 
 LayoutContainer.propTypes = {
+    children: PropTypes.element,
 };
 
-const mapStateToProps = (state, _ownProps) => ({
-});
-
-const mapDispatchToProps = (dispatch, _ownProps) => ({
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
+export default LayoutContainer;
