@@ -4,6 +4,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
+const GitRevisionPlugin = require('git-revision-webpack-plugin');
 
 const env = {
     prod: process.env.NODE_ENV === 'production',
@@ -17,6 +18,19 @@ const ifProd = item => addItem(env.prod, item);
 const ifDev = item => addItem(!env.prod, item);
 const removeEmpty = array => array.filter(i => !!i);
 const prodDevValue = (prod, dev) => env.prod ? prod : dev;
+
+const gitRevisionPlugin = new GitRevisionPlugin();
+const defineOpts = {
+    'process.env': {
+        NODE_ENV: `"${prodDevValue('production', 'development')}"`,
+    },
+    'BUILD': {
+        'VERSION': JSON.stringify(gitRevisionPlugin.version()),
+        'COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
+        'TIME': JSON.stringify(new Date().toISOString()),
+    },
+    'PAGE_TITLE': JSON.stringify(TITLE),
+};
 
 module.exports = {
     entry: {
@@ -87,12 +101,7 @@ module.exports = {
             debug: false,
             quiet: true,
         })),
-        new webpack.DefinePlugin({
-            'PAGE_TITLE': JSON.stringify(TITLE),
-        }),
-        ifProd(new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production'),
-        })),
+        new webpack.DefinePlugin(defineOpts),
         ifProd(new webpack.optimize.UglifyJsPlugin({
             compress: {
                 screw_ie8: true, // eslint-disable-line

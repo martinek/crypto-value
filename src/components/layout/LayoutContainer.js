@@ -10,10 +10,13 @@ const LayoutContainer = ({children}) => (
         </div>
         <div className="hero-foot">
             <footer className="footer">
-                <div className="container">
-                    <div className="content has-text-centered">
-                        <p>©&nbsp;<a href="https://www.freevision.sk" target="new">freevision.sk</a>&nbsp;2017 | Market&nbsp;data&nbsp;by&nbsp;<a href="https://www.cryptocompare.com/" target="new">cryptocompare.com</a></p>
-                    </div>
+                <div className="container has-text-centered">
+                    <p>
+                            ©&nbsp;<a href="https://www.freevision.sk" target="new">freevision.sk</a>&nbsp;2017 | 
+                            Created by <a href="https://www.freevision.sk" target="new">freevision.sk</a> | 
+                            Market&nbsp;data&nbsp;by&nbsp;<a href="https://www.cryptocompare.com/" target="new">cryptocompare.com</a>
+                    </p>
+                    <p className="version">Version: {BUILD.VERSION}</p>
                 </div>
             </footer>     
         </div>
