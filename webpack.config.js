@@ -113,6 +113,7 @@ module.exports = {
         publicPath: '/',
         compress: true,
         port: env.port,
+        historyApiFallback: true,
     },
     resolve: {
         alias: {
