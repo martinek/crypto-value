@@ -134,7 +134,7 @@ class Editor extends Component {
     render() {
         return (
             <div className="card editor-card">
-                <CardHeader>
+                <CardHeader back={true}>
                     <a 
                         className="card-header-icon has-text-primary" 
                         title="Reload exchange data"
