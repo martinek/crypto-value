@@ -101,8 +101,9 @@ class Calculator extends Component {
     render() {
         const tSym = this.tSym();
         const total = this.state.items.reduce((acc, item) => acc += item.value, 0);
-        const difference = this.investment() === '' ? null : total - Number(this.investment());
-        const differencePerc = this.investment() === '' ? null : Number(this.investment()) * 100 / total;
+        const invest = Number(this.investment());
+        const difference = this.investment() === '' ? null : total - invest;
+        const differencePerc = this.investment() === '' ? null : (total - invest) * 100 / invest;
         
         return (
             <div className="card main-card">
