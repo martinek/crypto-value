@@ -14,7 +14,7 @@ const ItemForm = ({fSyms, item, onChange, onRemove}) => {
     };
 
     return (
-        <div className="field has-addons">
+        <div className="field has-addons is-fullwidth">
             <p className="control">
                 <button className="button is-danger" onClick={onRemove}>
                     <span className="icon">
@@ -22,7 +22,7 @@ const ItemForm = ({fSyms, item, onChange, onRemove}) => {
                     </span>
                 </button>
             </p>
-            <p className="control">
+            <p className="control is-expanded">
                 <input 
                     className="input has-text-right" 
                     value={item.amount || 0} 
