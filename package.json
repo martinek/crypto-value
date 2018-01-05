@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "bulma": "^0.6.1",
+    "classnames": "^2.2.5",
     "git-revision-webpack-plugin": "^2.5.1",
     "immutability-helper": "^2.1.2",
     "import-glob-loader": "^1.1.0",
