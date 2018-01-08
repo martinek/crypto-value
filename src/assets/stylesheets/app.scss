@@ -112,6 +112,12 @@
     }
 }
 
+.backup-info {
+    .backup-link {
+        word-wrap: break-word;
+    }
+}
+
 @media screen and (max-width: 425px) {
     .donation-info img {
         max-width: 100%;

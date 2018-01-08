@@ -10,6 +10,7 @@ import CardHeader from './CardHeader';
 
 import ExchangeInfo from './editor/ExchangeInfo';
 import ItemForm from './editor/ItemForm';
+import BackupInfo from './BackupInfo';
 
 class Editor extends Component {
     constructor() {
@@ -21,6 +22,10 @@ class Editor extends Component {
     componentDidMount() {
         if (!this.props.exchanges) {
             this.fetchExchanges();
+        }
+
+        if (location.href.split('#')[1]) {
+            this.showBackupInfo();
         }
     }
 
@@ -101,12 +106,31 @@ class Editor extends Component {
                 .value() : [];
     }
 
+    showBackupInfo() {
+        modal(
+            <BackupInfo userData={this.data()} saveUserData={this.props.saveUserData} />
+        );
+    }
+
     render() {
         const tSyms = this.tSyms();
 
         return (
             <div className="card editor-card">
-                <CardHeader back={true} />
+                {/* <div className={'modal is-active'}>
+                    <div className="modal-background"/>
+                    <div className={'modal-content'}>
+                        <BackupInfo />
+                    </div>
+                </div> */}
+                
+                <CardHeader back={true}>
+                    <a className="card-header-icon has-text-primary" onClick={() => this.showBackupInfo()}>
+                        <span className="icon">
+                            <span className="fas fa-download" />
+                        </span>
+                    </a>
+                </CardHeader>
                 <div className="card-content">
                     <div className="field">
                         <label className="label">
