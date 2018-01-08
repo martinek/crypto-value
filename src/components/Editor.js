@@ -11,28 +11,11 @@ import CardHeader from './CardHeader';
 import ExchangeInfo from './editor/ExchangeInfo';
 import ItemForm from './editor/ItemForm';
 
-const initialState = {
-    exchange: null,
-    tSym: null,
-    investment: null,
-    items: [],
-};
-
 class Editor extends Component {
-    constructor(props) {
+    constructor() {
         super();
 
-        this.state = this.stateFromProps(props);
-
         this.handleItemAdd = this.handleItemAdd.bind(this);
-    }
-
-    stateFromProps(props) {
-        return Object.assign({}, initialState, props.userData);
-    }
-
-    componentWillReceiveProps(props) {
-        this.setState(this.stateFromProps(props));
     }
 
     componentDidMount() {
@@ -41,8 +24,13 @@ class Editor extends Component {
         }
     }
 
-    componentDidUpdate(){
-        this.props.saveUserData(this.state);
+    updateData(update) {
+        this.props.saveUserData(Object.assign(this.data(), update));
+    }
+
+    data(key, def) {
+        const data = this.props.userData;
+        return (key ? _.get(data, key) : data) || def;
     }
 
     handleChange(key, value) {
@@ -53,15 +41,15 @@ class Editor extends Component {
 
             const newEx = this.getExchange(value);
             const tSyms = this.tSyms(newEx);
-            if (!_.includes(tSyms, this.state.tSym)) {
+            if (!_.includes(tSyms, this.data('tSym'))) {
                 update.tSym = tSyms[0];
             }
         }
-        this.setState(update);
+        this.updateData(update);
     }
 
     handleItemChange(index, item) {
-        this.setState(update(this.state, {
+        this.updateData(update(this.data(), {
             items: { $splice: [[index, 1, item]] },
         }));
     }
@@ -71,11 +59,11 @@ class Editor extends Component {
             amount: '0',
             fSym: this.fSyms()[0],
         };
-        this.setState({items: this.state.items.concat([item])});
+        this.updateData({items: this.data('items').concat([item])});
     }
 
     handleItemRemove(index) {
-        this.setState(update(this.state, {
+        this.updateData(update(this.data(), {
             items: { $splice: [[index, 1]] },
         }));
     }
@@ -89,18 +77,17 @@ class Editor extends Component {
     }
 
     currentExchange() {
-        return this.getExchange(this.state.exchange);
+        return this.getExchange(this.data('exchange'));
     }
 
     fSyms(exchange = this.currentExchange()) {
-        if (this.state.tSym === '') {
-            return [];
-        }
+        const tSym = this.data('tSym');
+        if (tSym === '') return [];
 
         return exchange ?
             _.keys(exchange)
                 .sort()
-                .filter(k => exchange[k].includes(this.state.tSym)) 
+                .filter(k => exchange[k].includes(tSym)) 
             : [];
     }
 
@@ -133,7 +120,7 @@ class Editor extends Component {
                         </label>
                         <p className="control">
                             <span className="select is-fullwidth">
-                                <select value={this.state.exchange || ''} onChange={e => this.handleChange('exchange', e.target.value)}>
+                                <select value={this.data('exchange', '')} onChange={e => this.handleChange('exchange', e.target.value)}>
                                     {_.keys(this.props.exchanges).sort().map(ex => 
                                         <option key={ex} value={ex}>{ex}</option>
                                     )}
@@ -149,7 +136,7 @@ class Editor extends Component {
                         <label className="label">Display symbol</label>
                         <p className="control">
                             <span className="select is-fullwidth">
-                                <select value={this.state.tSym || ''} onChange={e => this.handleChange('tSym', e.target.value)}>
+                                <select value={this.data('tSym', '')} onChange={e => this.handleChange('tSym', e.target.value)}>
                                     {tSyms.map(tSym => 
                                         <option key={tSym} value={tSym}>{tSym}</option>
                                     )}
@@ -162,16 +149,16 @@ class Editor extends Component {
                         Holding
                         <a className="is-pulled-right has-text-primary" onClick={() => modal(
                             <ExchangeInfo 
-                                exchangeName={this.state.exchange} 
+                                exchangeName={this.data('exchange')} 
                                 trades={this.currentExchange()} 
                                 tSyms={tSyms}
-                                tSym={this.state.tSym} 
+                                tSym={this.data('tSym')} 
                             />
                         )}>
                             <span className="fas fa-info-circle" />
                         </a>
                     </label>
-                    {this.state.items.map((item, i) => 
+                    {this.data('items', []).map((item, i) => 
                         (<ItemForm 
                             key={i} 
                             item={item} 
@@ -191,11 +178,11 @@ class Editor extends Component {
                     <label className="label">Total investment</label>
                     <div className="field has-addons is-fullwidth">
                         <p className="control is-expanded">
-                            <input className="input has-text-right" type="number" value={this.state.investment || '0'} onChange={e => this.handleChange('investment', e.target.value)} />
+                            <input className="input has-text-right" type="number" value={this.data('investment', '0')} onChange={e => this.handleChange('investment', e.target.value)} />
                         </p>
                         <p className="control">
                             <a className="button is-static">
-                                {this.state.tSym || ''}
+                                {this.data('tSym', '')}
                             </a>
                         </p>
                     </div>
