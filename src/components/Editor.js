@@ -186,6 +186,7 @@ class Editor extends Component {
                         (<ItemForm 
                             key={i} 
                             item={item} 
+                            dSym={this.data('tSym', '')}
                             fSyms={this.fSyms()} 
                             onChange={item => this.handleItemChange(i, item)} 
                             onRemove={() => this.handleItemRemove(i)} 

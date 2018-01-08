@@ -17,7 +17,7 @@ export default class DataSource {
     }
 
     static fetchPrices(fSyms, tSyms, exchange) {
-        return req.get(`${BASE_URL}/pricemulti?fsyms=${fSyms.join(',')}&tsyms=${tSyms.join(',')}&e=${exchange}`)
+        return req.get(`${BASE_URL}/pricemulti?fsyms=${_.without(fSyms, tSyms[0]).join(',')}&tsyms=${tSyms.join(',')}&e=${exchange}`)
             .then(res => res.body);
     }
 

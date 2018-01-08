@@ -3,15 +3,16 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import _ from 'lodash';
 
-const ItemForm = ({fSyms, item, onChange, onRemove}) => {
+const ItemForm = ({dSym, fSyms, item, onChange, onRemove}) => {
     const handleChange = (key, value) => {
         onChange(Object.assign(item, {[key]: value}));
     };
 
-    const valid = _.includes(fSyms, item.fSym);
+    const same = dSym === item.fSym;
+    const valid = same || _.includes(fSyms, item.fSym);
 
     return (
-        <div className={cx('field has-addons is-fullwidth', {'has-help': !valid})}>
+        <div className={cx('field has-addons is-fullwidth', {'has-help': !valid || same})}>
             <p className="control">
                 <button className="button is-danger" onClick={onRemove}>
                     <span className="icon">
@@ -20,9 +21,10 @@ const ItemForm = ({fSyms, item, onChange, onRemove}) => {
                 </button>
             </p>
             {!valid && <p className="help has-text-danger">Selected symbol is not available</p>}
+            {same && <p className="help has-text-info">Selected symbol is same as display symbol</p>}
             <p className="control is-expanded">
                 <input 
-                    className={cx('input has-text-right', {'is-danger': !valid})}
+                    className={cx('input has-text-right', {'is-danger': !valid, 'is-info': same})}
                     value={item.amount || 0} 
                     type="number" 
                     placeholder="Amount" 
@@ -30,9 +32,9 @@ const ItemForm = ({fSyms, item, onChange, onRemove}) => {
                 />
             </p>
             <p className="control">
-                <span className={cx('select', {'is-danger': !valid})}>
+                <span className={cx('select', {'is-danger': !valid, 'is-info': same})}>
                     <select value={item.fSym} onChange={e => handleChange('fSym', e.target.value)}>
-                        {!valid && (
+                        {(!valid || same) && (
                             <option disabled key={item.fSym} value={item.fSym}>{item.fSym}</option>
                         )}
                         {fSyms.sort().map(fSym => 
@@ -46,6 +48,7 @@ const ItemForm = ({fSyms, item, onChange, onRemove}) => {
 };
 
 ItemForm.propTypes = {
+    dSym: PropTypes.string,
     fSyms: PropTypes.array,
     item: PropTypes.object,
     onChange: PropTypes.func,

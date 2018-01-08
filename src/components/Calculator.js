@@ -92,7 +92,9 @@ class Calculator extends Component {
 
     updateValues(prices) {
         this.setState({items: this.state.items.map(item => {
-            item.symPrice = _.get(prices, `[${item.sym}][${this.tSym()}]`, 0);
+            // when converting to same symbol (ie. BTC -> BTC) use 1
+            const defaultValue = item.sym === this.tSym() ? 1 : 0;
+            item.symPrice = _.get(prices, `[${item.sym}][${this.tSym()}]`, defaultValue);
             item.value = item.symPrice * item.amount;
             return item;
         })});
