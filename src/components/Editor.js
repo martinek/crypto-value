@@ -64,7 +64,7 @@ class Editor extends Component {
             amount: '0',
             fSym: this.fSyms()[0],
         };
-        this.updateData({items: this.data('items').concat([item])});
+        this.updateData({items: (this.data('items') || []).concat([item])});
     }
 
     handleItemRemove(index) {
