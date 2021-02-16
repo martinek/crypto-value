@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import update from 'react-addons-update';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
 
-import ActionTypes from 'constants/ActionTypes';
 import dataSource from 'lib/dataSource';
 
 class BackupInfo extends Component {

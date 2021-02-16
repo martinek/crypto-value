@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import _ from 'lodash';
+import get from 'lodash/get';
 
 import DataSource from 'lib/dataSource';
 
@@ -64,7 +64,7 @@ class Calculator extends Component {
     constructor(props) {
         super();
         this.state = {
-            items: _.get(props, 'userData.items', []).map(item => ({
+            items: get(props, 'userData.items', []).map(item => ({
                 sym: item.fSym,
                 amount: Number(item.amount),
                 symPrice: null,
@@ -78,15 +78,15 @@ class Calculator extends Component {
     }
 
     tSym() {
-        return _.get(this, 'props.userData.tSym');
+        return get(this, 'props.userData.tSym');
     }
 
     investment() {
-        return _.get(this, 'props.userData.investment', '');
+        return get(this, 'props.userData.investment', '');
     }
 
     fetchPrices() {
-        DataSource.fetchPrices(this.state.items.map(i => i.sym), [this.tSym()], _.get(this, 'props.userData.exchange'))
+        DataSource.fetchPrices(this.state.items.map(i => i.sym), [this.tSym()])
             .then(prices => this.updateValues(prices));
     }
 
@@ -94,7 +94,7 @@ class Calculator extends Component {
         this.setState({items: this.state.items.map(item => {
             // when converting to same symbol (ie. BTC -> BTC) use 1
             const defaultValue = item.sym === this.tSym() ? 1 : 0;
-            item.symPrice = _.get(prices, `[${item.sym}][${this.tSym()}]`, defaultValue);
+            item.symPrice = get(prices, `[${item.sym}][${this.tSym()}]`, defaultValue);
             item.value = item.symPrice * item.amount;
             return item;
         })});
@@ -147,7 +147,6 @@ class Calculator extends Component {
 }
 
 Calculator.propTypes = {
-    exchanges: PropTypes.object,
     userData: PropTypes.object,
 };
 

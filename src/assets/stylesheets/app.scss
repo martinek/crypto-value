@@ -87,31 +87,6 @@
     }
 }
 
-.exchange-info {
-    .table {
-        margin-top: 1.5em;
-        background-color: transparent;
-
-        td {
-            text-align: center;
-        }
-
-        thead th {
-            text-align: center;
-        }
-
-        th:first-child {
-            border-right: $border 1px solid;
-        }
-
-        th, td {
-            &.selected {
-                background-color: rgba($success, 0.25);
-            }
-        }
-    }
-}
-
 .backup-info {
     .backup-link {
         word-wrap: break-word;

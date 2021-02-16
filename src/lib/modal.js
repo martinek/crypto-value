@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import _ from 'lodash';
+import assign from 'lodash/assign';
 
 import Modal from 'components/Modal';
 
@@ -10,7 +10,7 @@ const modal = (children) => {
         ReactDOM.unmountComponentAtNode(wrapper);
         wrapper.remove();
     };
-    const props = _.assign({ isActive: true }, { children, onBackdropClick: cleanup });
+    const props = assign({ isActive: true }, { children, onBackdropClick: cleanup });
     ReactDOM.render(<Modal {...props} />, wrapper);
 };
 
