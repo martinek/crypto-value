@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { IDataHistoryEntry } from "../../lib/DataHistoryDatabase";
 import { buildViewData, formatDate } from "../../lib/helpers";
 import useDataHistory from "../../lib/useDataHistory";
@@ -54,12 +55,13 @@ const HistoryPage = () => {
               <button className="button is-small is-danger" onClick={() => confirmDelete(currentEntry)}>
                 Delete
               </button>
-              {/* <button
+              <Link
+                to={`/edit-history/${currentEntry.id}`}
                 className="button is-small is-default"
                 onClick={() => setCurrentEntryIndex(currentEntryIndex + 1)}
               >
                 Edit
-              </button> */}
+              </Link>
             </div>
           </>
         )}

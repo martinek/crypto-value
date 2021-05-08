@@ -1,13 +1,12 @@
-import database, { IDataHistoryEntry } from "./DataHistoryDatabase";
 import { useEffect, useState } from "react";
-import { IUserData } from "../components/AppContext";
-import { IPrices } from "./dataSource";
+import database, { IDataHistoryEntry } from "./DataHistoryDatabase";
 
 interface IDataHistory {
   isSupported: boolean;
   history: IDataHistoryEntry[];
   addEntry: (entry: IDataHistoryEntry) => Promise<number>;
   removeEntry: (entry: IDataHistoryEntry) => Promise<void>;
+  editEntry: (key: number, entry: Partial<IDataHistoryEntry>) => Promise<number | undefined>;
 }
 
 const DB = {
@@ -21,6 +20,14 @@ const DB = {
 
   removeEntry: (entry: IDataHistoryEntry) => {
     return database.transaction("rw", database.entries, async () => database.entries.delete(entry.id!));
+  },
+
+  editEntry: (key: number, entry: Partial<IDataHistoryEntry>) => {
+    return database.transaction("rw", database.entries, async () => {
+      const existingEntry = await database.entries.get(key);
+      if (!existingEntry) return Promise.resolve();
+      return database.entries.put({ ...existingEntry, ...entry }, key);
+    });
   },
 };
 
@@ -51,11 +58,19 @@ const useDataHistory = (): IDataHistory => {
     setHistory(await DB.getEntries());
   };
 
+  const editEntry = async (key: number, entry: Partial<IDataHistoryEntry>) => {
+    if (!isSupported) return Promise.reject(HistoryNotSupportedError);
+
+    await DB.editEntry(key, entry);
+    setHistory(await DB.getEntries());
+  };
+
   return {
     isSupported,
     history,
     addEntry,
     removeEntry,
+    editEntry,
   };
 };
 
