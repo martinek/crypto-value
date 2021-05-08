@@ -25,9 +25,7 @@ const CardHeader = ({ children, back }: IProps) => {
           <span>{title}</span>
         )}
         <a className="info-icon has-text-primary" onClick={open}>
-          <span className="icon">
-            <span className="fas fa-info-circle" />
-          </span>
+          <span className="fas fa-info-circle" />
         </a>
       </p>
       {children}
