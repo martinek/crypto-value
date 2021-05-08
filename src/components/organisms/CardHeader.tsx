@@ -5,7 +5,7 @@ import { useModalState } from "../molecules/Modal";
 import InfoModal from "./InfoModal";
 
 interface IProps {
-  children: React.ReactNode;
+  children?: React.ReactNode;
   back?: boolean;
 }
 

@@ -11,6 +11,11 @@ const formatPrice = (value: number | undefined | null, symbol?: string): string 
   return value.toFixed(2) + unit;
 };
 
+export const formatDate = (time: number): string => {
+  const date = new Date(time);
+  return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+};
+
 export const buildViewData = (userData: IUserData, prices?: IPrices): ICalculatorViewData => {
   const res: ICalculatorViewData = {
     items: [],

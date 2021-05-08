@@ -5,8 +5,9 @@ import { buildViewData } from "../../lib/helpers";
 import { useAppContext } from "../AppContext";
 import CalculatorView from "../molecules/CalculatorView";
 import CardHeader from "../organisms/CardHeader";
+import HistoryFlag from "../organisms/HistoryFlag";
 
-const Calculator = () => {
+const CalculatorPage = () => {
   const { prices, setPrices, userData } = useAppContext();
   const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(false);
@@ -48,10 +49,11 @@ const Calculator = () => {
         </Link>
       </CardHeader>
       <div className="card-content">
+        <HistoryFlag />
         <CalculatorView data={viewData} loading={loading} error={error} />
       </div>
     </div>
   );
 };
 
-export default Calculator;
+export default CalculatorPage;

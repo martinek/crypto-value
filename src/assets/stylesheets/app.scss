@@ -128,3 +128,13 @@
     max-width: 100%;
   }
 }
+
+.history-flag {
+  position: absolute;
+  left: 100%;
+  background-color: white;
+  border-radius: $box-radius;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: $box-shadow;
+}
