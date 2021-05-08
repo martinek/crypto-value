@@ -40,6 +40,8 @@ export const AppContextProvider = (props: { children: React.ReactNode }) => {
   const setUserData = useCallback((userData: IUserData) => {
     saveUserData(userData);
     iSetUserData(userData);
+    // reset prices to force reload
+    iSetPrices(undefined);
   }, []);
 
   const setPrices = useCallback((prices: IPrices) => {
