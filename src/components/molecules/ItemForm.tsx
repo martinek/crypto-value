@@ -1,17 +1,26 @@
-import { IUserItem } from "../AppContext";
 import cx from "classnames";
+import { useState } from "react";
+import { IUserItem } from "../AppContext";
 
 interface IProps {
   item: IUserItem;
   onChange: (item: IUserItem) => void;
+  onFetchPrice?: () => Promise<any>;
   onPriceChange: (newPrice: string) => void;
   onRemove: () => void;
   price?: string;
   tSym: string;
 }
 
-const ItemForm = ({ item, onChange, onPriceChange, onRemove, price, tSym }: IProps) => {
+const ItemForm = ({ item, onChange, onPriceChange, onRemove, price, tSym, onFetchPrice }: IProps) => {
   const hasPriceInput = price !== undefined;
+  const [fetching, setFetching] = useState(false);
+
+  const handleFetchPrice = () => {
+    if (!onFetchPrice) return;
+    setFetching(true);
+    onFetchPrice().finally(() => setFetching(false));
+  };
 
   return (
     <>
@@ -58,6 +67,15 @@ const ItemForm = ({ item, onChange, onPriceChange, onRemove, price, tSym }: IPro
           <p className="control">
             <a className="button is-static">{tSym}</a>
           </p>
+          {onFetchPrice && (
+            <p className="control">
+              <button className={cx("button is-default", { "is-loading": fetching })} onClick={handleFetchPrice}>
+                <span className="icon">
+                  <span className="fas fa-sync" />
+                </span>
+              </button>
+            </p>
+          )}
         </div>
       )}
     </>

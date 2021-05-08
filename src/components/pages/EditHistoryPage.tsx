@@ -44,6 +44,7 @@ const EditHistoryPage = () => {
               onPricesChange={(prices) => changeEntry({ prices })}
               userData={entry.userData}
               prices={entry.prices}
+              timestamp={entry.timestamp / 1000}
             />
           </>
         ) : (

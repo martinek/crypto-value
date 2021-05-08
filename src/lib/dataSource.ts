@@ -11,6 +11,19 @@ export const fetchPrices = (fSyms: string[], tSyms: string[]): Promise<IPrices> 
   return fetch(url).then((res) => res.json()) as Promise<IPrices>;
 };
 
+export const fetchPrice = (fSym: string, tSym: string, timestamp: number): Promise<number> => {
+  const url = `${BASE_URL}/v2/histoday?fsym=${fSym}&tsym=${tSym}&toTs=${timestamp}&limit=1`;
+  return fetch(url)
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.Response === "Success") {
+        return data.Data.Data[0].close as number;
+      } else {
+        throw new Error("Could not fetch data");
+      }
+    });
+};
+
 export const serializeUserData = (userData: IUserData) => {
   return [
     "v2",

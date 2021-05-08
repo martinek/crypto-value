@@ -1,15 +1,16 @@
-import { IPrices } from "../../lib/dataSource";
+import { fetchPrice, IPrices } from "../../lib/dataSource";
 import { IUserData, IUserItem } from "../AppContext";
 import ItemForm from "../molecules/ItemForm";
 
 interface IProps {
   onChange: (newUserData: IUserData) => void;
   onPricesChange?: (newPrices: IPrices) => void;
-  userData: IUserData;
   prices?: IPrices;
+  timestamp?: number;
+  userData: IUserData;
 }
 
-const UserDataEditor = ({ onChange, onPricesChange, prices, userData }: IProps) => {
+const UserDataEditor = ({ onChange, onPricesChange, prices, timestamp, userData }: IProps) => {
   const { investment, items, tSym } = userData;
 
   const updateItem = (oldItem: IUserItem, newItem: IUserItem) => {
@@ -59,6 +60,13 @@ const UserDataEditor = ({ onChange, onPricesChange, prices, userData }: IProps) 
     return prices[item.fSym]?.[userData.tSym]?.toString() || "";
   };
 
+  const handleFetchPrice = (item: IUserItem) => {
+    if (!timestamp) return Promise.resolve();
+    return fetchPrice(item.fSym, tSym, timestamp).then((price) => {
+      handlePriceChange(item, price.toString());
+    });
+  };
+
   return (
     <>
       <div className="field">
@@ -79,6 +87,7 @@ const UserDataEditor = ({ onChange, onPricesChange, prices, userData }: IProps) 
           key={i}
           item={item}
           onChange={(newItem) => updateItem(item, newItem)}
+          onFetchPrice={() => handleFetchPrice(item)}
           onPriceChange={(newPrice) => handlePriceChange(item, newPrice)}
           onRemove={() => removeItem(item)}
           price={itemPrice(item)}
