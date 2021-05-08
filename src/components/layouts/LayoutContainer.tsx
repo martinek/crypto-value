@@ -1,4 +1,5 @@
-import Modal, { useModalState } from "../molecules/Modal";
+import { useModalState } from "../molecules/Modal";
+import DonationModal from "../organisms/DonationModal";
 
 interface IProps {
   children?: React.ReactNode;
@@ -35,17 +36,7 @@ const LayoutContainer = ({ children }: IProps) => {
           </div>
         </footer>
       </div>
-      <Modal {...modalProps}>
-        <div className="message is-info donation-info has-text-centered">
-          <div className="message-body">
-            <img src="1457PgXio7wV8vQmD1dxpBLNGUaAfDjSUV.png" alt="1457PgXio7wV8vQmD1dxpBLNGUaAfDjSUV" />
-            <p className="donation-address">
-              <span className="fab fa-bitcoin" />
-              <span>1457PgXio7wV8vQmD1dxpBLNGUaAfDjSUV</span>
-            </p>
-          </div>
-        </div>
-      </Modal>
+      <DonationModal {...modalProps} />
     </section>
   );
 };

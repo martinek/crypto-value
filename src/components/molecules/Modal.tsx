@@ -1,14 +1,14 @@
 import { useMemo, useState } from "react";
 import cx from "classnames";
 
-interface IProps {
+export interface IModalProps {
   isActive: boolean;
   isCard?: boolean;
   onBackdropClick?: () => void;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
-const Modal = ({ isActive, isCard = false, onBackdropClick, children }: IProps) => (
+const Modal = ({ isActive, isCard = false, onBackdropClick, children }: IModalProps) => (
   <div className={cx("modal", { "is-active": isActive })}>
     <div className="modal-background" onClick={onBackdropClick} />
     <div className={cx({ "modal-card": isCard, "modal-content": !isCard })}>{children}</div>

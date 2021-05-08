@@ -4,7 +4,7 @@ import { fetchPrices as iFetchPrices, IPrices } from "../../lib/dataSource";
 import { buildViewData } from "../../lib/helpers";
 import { useAppContext } from "../AppContext";
 import CalculatorView from "../molecules/CalculatorView";
-import CardHeader from "../molecules/CardHeader";
+import CardHeader from "../organisms/CardHeader";
 
 const Calculator = () => {
   const { userData } = useAppContext();

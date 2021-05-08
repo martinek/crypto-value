@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router";
 import { IUserItem, useAppContext } from "../AppContext";
-import CardHeader from "../molecules/CardHeader";
 import ItemForm from "../molecules/ItemForm";
-import Modal, { useModalState } from "../molecules/Modal";
-import BackupInfo from "../organisms/BackupInfo";
+import { useModalState } from "../molecules/Modal";
+import BackupInfoModal from "../organisms/BackupInfoModal";
+import CardHeader from "../organisms/CardHeader";
 
 const Editor = () => {
   const { userData, setUserData } = useAppContext();
@@ -83,9 +83,7 @@ const Editor = () => {
           </div>
         </div>
       </div>
-      <Modal {...modalProps}>
-        <BackupInfo />
-      </Modal>
+      <BackupInfoModal {...modalProps} />
     </>
   );
 };
