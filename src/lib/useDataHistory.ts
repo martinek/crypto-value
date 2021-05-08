@@ -15,7 +15,9 @@ const DB = {
   },
 
   getEntries: () => {
-    return database.transaction("r", database.entries, async () => database.entries.toArray());
+    return database.transaction("r", database.entries, async () =>
+      database.entries.orderBy("timestamp").reverse().toArray()
+    );
   },
 
   removeEntry: (entry: IDataHistoryEntry) => {

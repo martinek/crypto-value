@@ -1,9 +1,11 @@
+import cx from "classnames";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { IDataHistoryEntry } from "../../lib/DataHistoryDatabase";
 import { buildViewData, formatDate } from "../../lib/helpers";
 import useDataHistory from "../../lib/useDataHistory";
 import CalculatorView from "../molecules/CalculatorView";
+import Message from "../molecules/Message";
 import CardHeader from "../organisms/CardHeader";
 
 const HistoryPage = () => {
@@ -26,13 +28,22 @@ const HistoryPage = () => {
     <div className="card main-card">
       <CardHeader back="/" />
       <div className="card-content">
+        {history.length === 0 && (
+          <Message className="has-text-centered">
+            There are no entries in history.
+            <br />
+            Try saving an entry first.
+          </Message>
+        )}
         {currentEntry && (
           <>
             <div className="is-flex is-justify-content-space-between is-align-items-center mb-4">
               <button
-                className="button is-small is-default"
-                disabled={currentEntryIndex <= 0}
-                onClick={() => setCurrentEntryIndex(currentEntryIndex - 1)}
+                className={cx("button is-small is-default", {
+                  "is-invisible": currentEntryIndex >= history.length - 1,
+                })}
+                disabled={currentEntryIndex >= history.length - 1}
+                onClick={() => setCurrentEntryIndex(currentEntryIndex + 1)}
               >
                 <span className="icon">
                   <span className="fa fa-arrow-left" />
@@ -40,9 +51,9 @@ const HistoryPage = () => {
               </button>
               <span>{formatDate(currentEntry.timestamp)}</span>
               <button
-                className="button is-small"
-                disabled={currentEntryIndex >= history.length - 1}
-                onClick={() => setCurrentEntryIndex(currentEntryIndex + 1)}
+                className={cx("button is-small is-default", { "is-invisible": currentEntryIndex <= 0 })}
+                disabled={currentEntryIndex <= 0}
+                onClick={() => setCurrentEntryIndex(currentEntryIndex - 1)}
               >
                 <span className="icon">
                   <span className="fa fa-arrow-right" />

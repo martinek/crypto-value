@@ -15,7 +15,7 @@ class DataHistoryDatabase extends Dexie {
   public constructor() {
     super("dataHistory");
     this.version(1).stores({
-      entries: "++id",
+      entries: "++id,timestamp",
     });
     this.entries = this.table("entries");
   }
