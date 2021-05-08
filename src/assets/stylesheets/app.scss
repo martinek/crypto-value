@@ -1,100 +1,176 @@
-/* App */
+@import "react-datepicker/dist/react-datepicker.css";
 
-@import 'variables';
+@import "variables";
 
-@import '~bulma/bulma';
+@import "~bulma/bulma";
 
-.main-card, .editor-card {
-    max-width: 350px;
-    margin: 0 auto;
+.layout-container {
+  min-height: 100vh;
+  background: linear-gradient(141deg, #3f79aa 0%, #6584b7 71%, #7183c4 100%);
+  display: flex;
+  flex-direction: column;
+
+  &__body {
+    flex: 1;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__footer {
+    flex: 0;
+  }
+}
+
+.main-card {
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+.card-header-icon {
+  padding-left: 0.5em;
+  padding-right: 0.5em;
 }
 
 .card-header-title a svg {
-    margin-right: 0.5em;
+  margin-right: 0.5em;
 }
 
 .info-icon {
-    margin-left: 0.5em;
+  margin-left: 0.5em;
 }
 
-.item, .total {
-    font-size: 1.3em;
-
-    .small {
-        font-size: 0.5em;
-        color: $info;
-        font-weight: bold;
-    }
-}
-
+.item,
 .total {
+  font-size: 1.3em;
+
+  .small {
+    font-size: 0.5em;
+    color: $info;
     font-weight: bold;
+  }
 }
 
 .total {
-    border-top: 1px solid $border;
-    padding-top: 1.5rem;
+  font-weight: bold;
 }
 
-.editor-card {
-    .label .svg-inline--fa {
-        margin-left: 0.5em;
-    }
+.total {
+  border-top: 1px solid $border;
+  padding-top: 1.5rem;
+}
+
+.main-card {
+  .label .svg-inline--fa {
+    margin-left: 0.5em;
+  }
 }
 
 .field.has-addons.has-help {
-    position: relative;
-    margin-bottom: 1.7em;
+  position: relative;
+  margin-bottom: 1.7em;
 
-    .help {
-        position: absolute;
-        bottom: -1.7em;
-        right: 0;
-    }
+  .help {
+    position: absolute;
+    bottom: -1.7em;
+    right: 0;
+  }
 }
 
 .footer {
+  font-size: 0.8em;
+  padding: 1.5rem 1.5rem 3rem;
+
+  .credits {
+    margin-bottom: 1em;
+    a {
+      color: white;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
+  .version,
+  .donation {
     font-size: 0.8em;
-    padding: 1.5rem 1.5rem 3rem; 
+  }
 
-    .credits {
-        margin-bottom: 1em;
-    }
-
-    .version, .donation {
-        font-size: 0.8em;
-    }
-
-    .version {
-        margin-bottom: 1em;
-    }
+  .version {
+    margin-bottom: 1em;
+  }
 }
 
 .donation-info {
-    color: white;
+  color: white;
 
-    img {
-        max-width: 300px;
-        margin-bottom: 2em;
-    }
+  img {
+    max-width: 300px;
+    margin-bottom: 2em;
+  }
 
-    .fa-bitcoin {
-        margin-right: 0.5em;
-    }
+  .fa-bitcoin {
+    margin-right: 0.5em;
+  }
 
-    .donation-address {
-        word-wrap: break-word;
-    }
+  .donation-address {
+    word-wrap: break-word;
+  }
 }
 
 .backup-info {
-    .backup-link {
-        word-wrap: break-word;
-    }
+  .backup-link {
+    word-wrap: break-word;
+  }
+}
+
+.skeleton {
+  animation: skeleton-glow 1s linear infinite alternate;
+  background: rgba(206, 217, 224, 0.2);
+  background-clip: padding-box !important;
+  border-color: rgba(206, 217, 224, 0.2) !important;
+  border-radius: 2px;
+  box-shadow: none !important;
+  color: transparent !important;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+
+@keyframes skeleton-glow {
+  0% {
+    background: rgba(206, 217, 224, 0.2);
+    border-color: rgba(206, 217, 224, 0.2);
+  }
+  100% {
+    background: rgba(92, 112, 128, 0.2);
+    border-color: rgba(92, 112, 128, 0.2);
+  }
 }
 
 @media screen and (max-width: 425px) {
-    .donation-info img {
-        max-width: 100%;
-    }
+  .layout-container__body {
+    padding: 0;
+  }
+
+  .main-card {
+    max-width: none;
+    border-radius: 0;
+  }
+
+  .donation-info img {
+    max-width: 100%;
+  }
+}
+
+.history-flag {
+  position: absolute;
+  left: 100%;
+  background-color: white;
+  border-radius: $box-radius;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: $box-shadow;
 }
