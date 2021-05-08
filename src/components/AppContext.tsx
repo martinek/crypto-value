@@ -1,5 +1,5 @@
-import { createContext, useCallback, useContext, useState } from "react";
-import { loadUserData, saveUserData } from "../lib/dataSource";
+import { createContext, useCallback, useContext, useMemo, useState } from "react";
+import { IPrices, loadUserData, saveUserData } from "../lib/dataSource";
 
 export interface IUserItem {
   amount: string;
@@ -13,6 +13,8 @@ export interface IUserData {
 }
 
 interface IAppContext {
+  prices: IPrices | undefined;
+  setPrices: (prices: IPrices) => void;
   setUserData: (data: IUserData) => void;
   userData: IUserData;
 }
@@ -24,6 +26,8 @@ export const INITIAL_USER_DATA: IUserData = {
 };
 
 const AppContext = createContext<IAppContext>({
+  prices: undefined,
+  setPrices: () => {},
   setUserData: () => {},
   userData: INITIAL_USER_DATA,
 });
@@ -31,13 +35,29 @@ const AppContext = createContext<IAppContext>({
 export const AppContextProvider = (props: { children: React.ReactNode }) => {
   const initialUserData = loadUserData() || INITIAL_USER_DATA;
   const [userData, iSetUserData] = useState<IUserData>(initialUserData);
+  const [prices, iSetPrices] = useState<IPrices>();
 
   const setUserData = useCallback((userData: IUserData) => {
     saveUserData(userData);
     iSetUserData(userData);
   }, []);
 
-  return <AppContext.Provider value={{ userData, setUserData }} {...props} />;
+  const setPrices = useCallback((prices: IPrices) => {
+    // FUTURE: store prices for historic purposes
+    iSetPrices(prices);
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      prices,
+      setPrices,
+      setUserData,
+      userData,
+    }),
+    [prices, userData]
+  );
+
+  return <AppContext.Provider value={value} {...props} />;
 };
 
 export const useAppContext = () => useContext(AppContext);

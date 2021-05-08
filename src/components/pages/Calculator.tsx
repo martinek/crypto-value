@@ -1,16 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchPrices as iFetchPrices, IPrices } from "../../lib/dataSource";
+import { fetchPrices as iFetchPrices } from "../../lib/dataSource";
 import { buildViewData } from "../../lib/helpers";
 import { useAppContext } from "../AppContext";
 import CalculatorView from "../molecules/CalculatorView";
 import CardHeader from "../organisms/CardHeader";
 
 const Calculator = () => {
-  const { userData } = useAppContext();
+  const { prices, setPrices, userData } = useAppContext();
   const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(false);
-  const [prices, setPrices] = useState<IPrices>();
 
   const fetchPrices = useCallback(() => {
     if (userData.items.length === 0) return;
@@ -26,7 +25,11 @@ const Calculator = () => {
       .finally(() => setLoading(false));
   }, [userData]);
 
-  useEffect(() => fetchPrices(), [fetchPrices]);
+  useEffect(() => {
+    if (!prices) {
+      fetchPrices();
+    }
+  }, [fetchPrices]);
 
   const viewData = buildViewData(userData, prices);
 
