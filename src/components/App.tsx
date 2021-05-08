@@ -1,8 +1,8 @@
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
 import { AppContextProvider } from "./AppContext";
 import LayoutContainer from "./layouts/LayoutContainer";
 import CalculatorPage from "./pages/CalculatorPage";
-import EditorPage from "./pages/EditorPage";
+import EditPage from "./pages/EditPage";
 import HistoryPage from "./pages/HistoryPage";
 
 const App = () => (
@@ -10,7 +10,7 @@ const App = () => (
     <BrowserRouter>
       <LayoutContainer>
         <Switch>
-          <Route exact path="/edit" component={EditorPage} />
+          <Route exact path="/edit" component={EditPage} />
           <Route exact path="/history" component={HistoryPage} />
           <Route path="/" component={CalculatorPage} />
         </Switch>

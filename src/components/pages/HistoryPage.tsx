@@ -23,7 +23,7 @@ const HistoryPage = () => {
 
   return (
     <div className="card main-card">
-      <CardHeader back />
+      <CardHeader back="/" />
       <div className="card-content">
         {currentEntry && (
           <>

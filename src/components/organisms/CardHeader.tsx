@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React from "react";
 import { Link } from "react-router-dom";
 import { useModalState } from "../molecules/Modal";
@@ -6,7 +5,7 @@ import InfoModal from "./InfoModal";
 
 interface IProps {
   children?: React.ReactNode;
-  back?: boolean;
+  back?: string;
 }
 
 const CardHeader = ({ children, back }: IProps) => {
@@ -17,7 +16,7 @@ const CardHeader = ({ children, back }: IProps) => {
     <header className="card-header">
       <p className="card-header-title">
         {back ? (
-          <Link className="has-text-primary" to="/">
+          <Link className="has-text-primary" to={back}>
             <span className="fas fa-chevron-left fa-lg" />
             {title}
           </Link>
@@ -32,11 +31,6 @@ const CardHeader = ({ children, back }: IProps) => {
       <InfoModal {...modalProps} />
     </header>
   );
-};
-
-CardHeader.propTypes = {
-  back: PropTypes.bool,
-  children: PropTypes.node,
 };
 
 export default CardHeader;

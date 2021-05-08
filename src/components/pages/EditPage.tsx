@@ -1,13 +1,12 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router";
-import { IUserItem, useAppContext } from "../AppContext";
-import ItemForm from "../molecules/ItemForm";
+import { useAppContext } from "../AppContext";
 import { useModalState } from "../molecules/Modal";
 import BackupInfoModal from "../organisms/BackupInfoModal";
 import CardHeader from "../organisms/CardHeader";
-import Editor from "../organisms/Editor";
+import UserDataEditor from "../organisms/UserDataEditor";
 
-const EditorPage = () => {
+const EditPage = () => {
   const { userData, setUserData } = useAppContext();
   const { open, modalProps } = useModalState();
   const location = useLocation();
@@ -20,8 +19,8 @@ const EditorPage = () => {
 
   return (
     <>
-      <div className="card editor-card">
-        <CardHeader back={true}>
+      <div className="card main-card">
+        <CardHeader back="/">
           <a className="card-header-icon has-text-primary" onClick={open}>
             <span className="icon">
               <span className="fas fa-download" />
@@ -29,7 +28,7 @@ const EditorPage = () => {
           </a>
         </CardHeader>
         <div className="card-content">
-          <Editor userData={userData} onChange={setUserData} />
+          <UserDataEditor userData={userData} onChange={setUserData} />
         </div>
       </div>
       <BackupInfoModal {...modalProps} />
@@ -37,4 +36,4 @@ const EditorPage = () => {
   );
 };
 
-export default EditorPage;
+export default EditPage;

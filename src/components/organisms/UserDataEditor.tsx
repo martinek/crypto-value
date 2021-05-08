@@ -1,14 +1,12 @@
-import { IPrices } from "../../lib/dataSource";
 import { IUserData, IUserItem } from "../AppContext";
 import ItemForm from "../molecules/ItemForm";
 
 interface IProps {
   onChange: (newUserData: IUserData) => void;
-  prices?: IPrices;
   userData: IUserData;
 }
 
-const Editor = ({ onChange, userData }: IProps) => {
+const UserDataEditor = ({ onChange, userData }: IProps) => {
   const updateItem = (oldItem: IUserItem, newItem: IUserItem) => {
     onChange({ ...userData, items: userData.items.map((it) => (it === oldItem ? newItem : it)) });
   };
@@ -68,4 +66,4 @@ const Editor = ({ onChange, userData }: IProps) => {
   );
 };
 
-export default Editor;
+export default UserDataEditor;

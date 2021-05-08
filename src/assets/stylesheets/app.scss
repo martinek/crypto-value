@@ -2,8 +2,27 @@
 
 @import "~bulma/bulma";
 
-.main-card,
-.editor-card {
+.layout-container {
+  min-height: 100vh;
+  background: linear-gradient(141deg, #3f79aa 0%, #6584b7 71%, #7183c4 100%);
+  display: flex;
+  flex-direction: column;
+
+  &__body {
+    flex: 1;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__footer {
+    flex: 0;
+  }
+}
+
+.main-card {
   max-width: 350px;
   margin: 0 auto;
 }
@@ -41,7 +60,7 @@
   padding-top: 1.5rem;
 }
 
-.editor-card {
+.main-card {
   .label .svg-inline--fa {
     margin-left: 0.5em;
   }
@@ -64,6 +83,12 @@
 
   .credits {
     margin-bottom: 1em;
+    a {
+      color: white;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 
   .version,
@@ -124,6 +149,15 @@
 }
 
 @media screen and (max-width: 425px) {
+  .layout-container__body {
+    padding: 0;
+  }
+
+  .main-card {
+    max-width: none;
+    border-radius: 0;
+  }
+
   .donation-info img {
     max-width: 100%;
   }
