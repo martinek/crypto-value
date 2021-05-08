@@ -2,6 +2,7 @@ import cx from "classnames";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import CalculatorItem, { ICalculatorItemProps } from "./CalculatorItem";
+import Message from "./Message";
 
 export interface ICalculatorViewData {
   items: ICalculatorItemProps[];
@@ -22,23 +23,19 @@ const CalculatorView = ({ data, error, loading }: IProps) => {
   return (
     <React.Fragment>
       {error && (
-        <div className="message is-danger">
-          <div className="message-body">
-            <p>Could not load prices</p>
-            <p className="is-size-7" style={{ whiteSpace: "pre-wrap" }}>
-              {error.message}
-            </p>
-          </div>
-        </div>
+        <Message variant="danger">
+          <p>Could not load prices</p>
+          <p className="is-size-7" style={{ whiteSpace: "pre-wrap" }}>
+            {error.message}
+          </p>
+        </Message>
       )}
       {data.items.length > 0 ? (
         data.items.map((itemProps, i) => <CalculatorItem key={i} {...itemProps} loading={loading} error={error} />)
       ) : (
-        <div className="message is-info has-text-centered">
-          <div className="message-body">
-            Add some items in <Link to="/edit">configuration</Link>
-          </div>
-        </div>
+        <Message variant="info" className="has-text-centered">
+          Add some items in <Link to="/edit">configuration</Link>
+        </Message>
       )}
 
       <div className="level is-mobile total">
