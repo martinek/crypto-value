@@ -1,10 +1,6 @@
-import { INITIAL_USER_DATA, IUserData, IUserItem } from "../components/AppContext";
+import { INITIAL_USER_DATA } from "./useUserData";
 
 const BASE_URL = "https://min-api.cryptocompare.com/data";
-
-export interface IPrices {
-  [key: string]: { [key: string]: number };
-}
 
 export const fetchPrices = (fSyms: string[], tSyms: string[]): Promise<IPrices> => {
   const url = `${BASE_URL}/pricemulti?fsyms=${fSyms.join(",")}&tsyms=${tSyms.join(",")}`;

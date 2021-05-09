@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 import { deserializeDataHistory, serializeDataHistory } from "../../lib/dataHistorySerializer";
-import useDataHistory from "../../lib/useDataHistory";
+import { useAppContext } from "../AppContext";
 import ErrorDisplay from "../molecules/ErrorDisplay";
 import Message from "../molecules/Message";
 import Modal, { IModalProps } from "../molecules/Modal";
 
 const BackupHistoryModal = (props: IModalProps) => {
-  const { history, importEntries } = useDataHistory();
+  const {
+    history: { history, importEntries },
+  } = useAppContext();
 
   const [data, setData] = useState("");
   const [error, setError] = useState<Error>();

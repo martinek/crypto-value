@@ -1,6 +1,4 @@
-import { IUserData } from "../components/AppContext";
 import { ICalculatorViewData } from "../components/molecules/CalculatorView";
-import { IPrices } from "./dataSource";
 
 const formatPrice = (value: number | undefined | null, symbol?: string): string => {
   const unit = symbol ? ` ${symbol}` : "";

@@ -1,12 +1,14 @@
 import cx from "classnames";
 import { useState } from "react";
-import useDataHistory from "../../lib/useDataHistory";
 import { useAppContext } from "../AppContext";
 import { FlagButton } from "../molecules/FlagButtons";
 
 const HistoryFlagButtons = () => {
-  const { prices, userData } = useAppContext();
-  const { isSupported, addEntry } = useDataHistory();
+  const {
+    prices,
+    userData,
+    history: { isSupported, addEntry },
+  } = useAppContext();
   const [saving, setSaving] = useState(false);
 
   if (!isSupported) return null;

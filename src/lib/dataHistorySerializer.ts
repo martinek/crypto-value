@@ -1,5 +1,5 @@
 import { IDataHistoryEntry } from "./DataHistoryDatabase";
-import { IPrices, isUserData } from "./dataSource";
+import { isUserData } from "./dataSource";
 
 export const serializeDataHistory = (history: IDataHistoryEntry[]): string => {
   const data = { version: 1, history };

@@ -1,7 +1,5 @@
 import Dexie from "dexie";
 import "dexie-observable";
-import { IUserData } from "../components/AppContext";
-import { IPrices } from "./dataSource";
 
 export interface IDataHistoryEntry {
   id?: number;

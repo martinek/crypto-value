@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import database, { IDataHistoryEntry } from "./DataHistoryDatabase";
 
-interface IDataHistory {
+export interface IDataHistory {
   isSupported: boolean;
   history: IDataHistoryEntry[];
   addEntry: (entry: IDataHistoryEntry) => Promise<number>;

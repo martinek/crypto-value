@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IDataHistoryEntry } from "../../lib/DataHistoryDatabase";
-import useDataHistory from "../../lib/useDataHistory";
+import { useAppContext } from "../AppContext";
 import BackFlagButton from "../molecules/BackFlagButton";
 import FlagButtons, { FlagButton } from "../molecules/FlagButtons";
 import HistoryPagination from "../molecules/HistoryPagination";
@@ -11,7 +11,9 @@ import CardHeader from "../organisms/CardHeader";
 import HistoryEntryView from "../organisms/HistoryEntryView";
 
 const HistoryPage = () => {
-  const { isSupported, history, removeEntry } = useDataHistory();
+  const {
+    history: { isSupported, history, removeEntry },
+  } = useAppContext();
   const [iCurrentEntryIndex, setCurrentEntryIndex] = useState(0);
   const { modalProps, open } = useModalState();
 
