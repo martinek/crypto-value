@@ -22,7 +22,7 @@ const CalculatorPage = () => {
       [userData.tSym]
     )
       .then(setPrices)
-      .catch(setError)
+      .catch((e) => setError(new Error(`Could not load prices\n${e?.message || e}`)))
       .finally(() => setLoading(false));
   }, [userData]);
 
