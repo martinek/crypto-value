@@ -29,11 +29,11 @@ const AppContext = createContext<IAppContext>({
   prices: undefined,
   setPrices: () => {},
   setUserData: () => {},
-  userData: INITIAL_USER_DATA,
+  userData: { ...INITIAL_USER_DATA },
 });
 
 export const AppContextProvider = (props: { children: React.ReactNode }) => {
-  const initialUserData = loadUserData() || INITIAL_USER_DATA;
+  const initialUserData = loadUserData() || { ...INITIAL_USER_DATA };
   const [userData, iSetUserData] = useState<IUserData>(initialUserData);
   const [prices, iSetPrices] = useState<IPrices>();
 

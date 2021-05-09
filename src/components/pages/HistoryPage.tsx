@@ -6,11 +6,14 @@ import { buildViewData, formatDate } from "../../lib/helpers";
 import useDataHistory from "../../lib/useDataHistory";
 import CalculatorView from "../molecules/CalculatorView";
 import Message from "../molecules/Message";
+import { useModalState } from "../molecules/Modal";
+import BackupHistoryModal from "../organisms/BackupHistoryModal";
 import CardHeader from "../organisms/CardHeader";
 
 const HistoryPage = () => {
   const { isSupported, history, removeEntry } = useDataHistory();
   const [iCurrentEntryIndex, setCurrentEntryIndex] = useState(0);
+  const { modalProps, open } = useModalState();
 
   // cap entry index to range of history
   const currentEntryIndex = Math.max(0, Math.min(iCurrentEntryIndex, history.length - 1));
@@ -26,7 +29,13 @@ const HistoryPage = () => {
 
   return (
     <div className="card main-card">
-      <CardHeader back="/" />
+      <CardHeader back="/">
+        <a className="card-header-icon has-text-primary" onClick={open}>
+          <span className="icon">
+            <span className="fas fa-download" />
+          </span>
+        </a>
+      </CardHeader>
       <div className="card-content">
         {history.length === 0 && (
           <Message className="has-text-centered">
@@ -77,6 +86,7 @@ const HistoryPage = () => {
           </>
         )}
       </div>
+      <BackupHistoryModal {...modalProps} />
     </div>
   );
 };

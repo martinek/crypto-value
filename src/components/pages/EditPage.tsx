@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation } from "react-router";
 import { useAppContext } from "../AppContext";
 import { useModalState } from "../molecules/Modal";
-import BackupInfoModal from "../organisms/BackupInfoModal";
+import BackupUserDataModal from "../organisms/BackupUserDataModal";
 import CardHeader from "../organisms/CardHeader";
 import UserDataEditor from "../organisms/UserDataEditor";
 
@@ -31,7 +31,7 @@ const EditPage = () => {
           <UserDataEditor userData={userData} onChange={setUserData} />
         </div>
       </div>
-      <BackupInfoModal {...modalProps} />
+      <BackupUserDataModal {...modalProps} />
     </>
   );
 };

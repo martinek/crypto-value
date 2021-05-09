@@ -7,6 +7,7 @@ interface IDataHistory {
   addEntry: (entry: IDataHistoryEntry) => Promise<number>;
   removeEntry: (entry: IDataHistoryEntry) => Promise<void>;
   editEntry: (key: number, entry: Partial<IDataHistoryEntry>) => Promise<number | undefined>;
+  importEntries: (entries: IDataHistoryEntry[]) => Promise<void>;
 }
 
 const DB = {
@@ -29,6 +30,13 @@ const DB = {
       const existingEntry = await database.entries.get(key);
       if (!existingEntry) return Promise.resolve();
       return database.entries.put({ ...existingEntry, ...entry }, key);
+    });
+  },
+
+  importEntries: (entries: IDataHistoryEntry[]) => {
+    return database.transaction("rw", database.entries, async () => {
+      await database.entries.clear();
+      return database.entries.bulkPut(entries);
     });
   },
 };
@@ -67,12 +75,19 @@ const useDataHistory = (): IDataHistory => {
     setHistory(await DB.getEntries());
   };
 
+  const importEntries = async (entries: IDataHistoryEntry[]) => {
+    if (!isSupported) return Promise.reject(HistoryNotSupportedError);
+
+    DB.importEntries(entries);
+  };
+
   return {
     isSupported,
     history,
     addEntry,
     removeEntry,
     editEntry,
+    importEntries,
   };
 };
 
