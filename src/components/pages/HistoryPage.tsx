@@ -8,7 +8,10 @@ import Message from "../molecules/Message";
 import { useModalState } from "../molecules/Modal";
 import BackupHistoryModal from "../organisms/BackupHistoryModal";
 import CardHeader from "../organisms/CardHeader";
-import HistoryEntryView from "../organisms/HistoryEntryView";
+import HistoryEntryListView from "../organisms/HistoryEntryListView";
+import HistoryEntryPieView from "../organisms/HistoryEntryPieView";
+
+type TView = "pie" | "list";
 
 const HistoryPage = () => {
   const {
@@ -16,6 +19,7 @@ const HistoryPage = () => {
   } = useAppContext();
   const [iCurrentEntryIndex, setCurrentEntryIndex] = useState(0);
   const { modalProps, open } = useModalState();
+  const [view, setView] = useState<TView>("list");
 
   // cap entry index to range of history
   const currentEntryIndex = Math.max(0, Math.min(iCurrentEntryIndex, history.length - 1));
@@ -36,6 +40,19 @@ const HistoryPage = () => {
         <FlagButtons>
           <BackFlagButton />
           <FlagButton icon="download" title="Backup history data" onClick={open} />
+          <hr />
+          <FlagButton
+            icon="list"
+            title="Backup history data"
+            active={view === "list"}
+            onClick={() => setView("list")}
+          />
+          <FlagButton
+            icon="chartPie"
+            title="Backup history data"
+            active={view === "pie"}
+            onClick={() => setView("pie")}
+          />
         </FlagButtons>
         {history.length === 0 && (
           <Message className="has-text-centered">
@@ -53,7 +70,11 @@ const HistoryPage = () => {
               currentEntry={currentEntry}
             />
             <hr />
-            <HistoryEntryView entry={currentEntry} onDelete={confirmDelete} />
+            {view === "list" ? (
+              <HistoryEntryListView entry={currentEntry} onDelete={confirmDelete} />
+            ) : view === "pie" ? (
+              <HistoryEntryPieView entry={currentEntry} />
+            ) : null}
           </>
         )}
       </div>

@@ -26,7 +26,7 @@ const HistoryPagination = ({ current, currentEntry, length, onChange }: IProps) 
           <span className="fa fa-arrow-left" />
         </span>
       </button>
-      <span>{currentEntry ? formatDate(currentEntry.timestamp) : "-"}</span>
+      <span className="is-unselectable">{currentEntry ? formatDate(currentEntry.timestamp) : "-"}</span>
       <button
         className={cx("button is-small is-default", { "is-invisible": isFirst })}
         disabled={isFirst}

@@ -8,7 +8,7 @@ interface IProps {
   onDelete?: (entry: IDataHistoryEntry) => void;
 }
 
-const HistoryEntryView = ({ entry, onDelete }: IProps) => {
+const HistoryEntryListView = ({ entry, onDelete }: IProps) => {
   return (
     <>
       <CalculatorView data={buildViewData(entry.userData, entry.prices)} />
@@ -28,4 +28,4 @@ const HistoryEntryView = ({ entry, onDelete }: IProps) => {
   );
 };
 
-export default HistoryEntryView;
+export default HistoryEntryListView;

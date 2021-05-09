@@ -1,6 +1,6 @@
 import { ICalculatorViewData } from "../components/molecules/CalculatorView";
 
-const formatPrice = (value: number | undefined | null, symbol?: string): string => {
+export const formatPrice = (value: number | undefined | null, symbol?: string): string => {
   const unit = symbol ? ` ${symbol}` : "";
   if (value === undefined || value === null || isNaN(value)) {
     return "-" + unit;

@@ -160,6 +160,7 @@
   align-items: center;
 
   hr {
+    background-color: $border;
     margin: 0;
     height: 1px;
     width: 30px;
@@ -167,7 +168,12 @@
 }
 
 @media screen and (max-width: 425px) {
+  .layout-container {
+    justify-content: flex-start;
+  }
+
   .layout-container__body {
+    flex: 0;
     padding: 0;
   }
 

@@ -10,6 +10,8 @@ const ICONS = {
   download: "fas fa-download",
   info: "fas fa-info-circle",
   chevronLeft: "fas fa-chevron-left",
+  chartPie: "fas fa-chart-pie",
+  list: "fas fa-list",
 };
 
 export interface IFlagButtonProps {
@@ -18,17 +20,20 @@ export interface IFlagButtonProps {
   icon: keyof typeof ICONS;
   title?: string;
   disabled?: boolean;
+  active?: boolean;
   className?: string;
 }
 
-export const FlagButton = ({ to, className, onClick, icon, title, disabled }: IFlagButtonProps) => {
+export const FlagButton = ({ to, className, onClick, icon, title, disabled, active }: IFlagButtonProps) => {
   const Icon = (
     <span className="icon">
       <i className={cx(ICONS[icon])} />
     </span>
   );
 
-  const cname = cx("button is-white has-text-primary", className);
+  const cname = cx("button is-white has-text-primary", className, {
+    "is-active": active,
+  });
 
   if (to) {
     return (
