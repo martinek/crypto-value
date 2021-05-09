@@ -1,10 +1,10 @@
 import cx from "classnames";
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import useDataHistory from "../../lib/useDataHistory";
 import { useAppContext } from "../AppContext";
+import { FlagButton } from "../molecules/FlagButtons";
 
-const HistoryFlag = () => {
+const HistoryFlagButtons = () => {
   const { prices, userData } = useAppContext();
   const { isSupported, addEntry } = useDataHistory();
   const [saving, setSaving] = useState(false);
@@ -30,23 +30,18 @@ const HistoryFlag = () => {
   };
 
   return (
-    <div className="history-flag">
-      <Link to="/history" className="button is-white has-text-primary" title="Show history">
-        <span className="icon">
-          <span className="fa fa-history" />
-        </span>
-      </Link>
-      <button
-        className={cx("button is-white has-text-primary", { "is-loading": saving })}
-        disabled={!canSave}
+    <>
+      <hr />
+      <FlagButton to="/history" title="Show history" icon="history" />
+      <FlagButton
         onClick={handleSave}
-      >
-        <span className="icon">
-          <i className="fa fa-save" />
-        </span>
-      </button>
-    </div>
+        title="Save to history"
+        icon="save"
+        className={cx({ "is-loading": saving })}
+        disabled={!canSave}
+      />
+    </>
   );
 };
 
-export default HistoryFlag;
+export default HistoryFlagButtons;

@@ -2,6 +2,8 @@ import DatePicker from "react-datepicker";
 import { useParams } from "react-router";
 import { IDataHistoryEntry } from "../../lib/DataHistoryDatabase";
 import useDataHistory from "../../lib/useDataHistory";
+import BackFlagButton from "../molecules/BackFlagButton";
+import FlagButtons from "../molecules/FlagButtons";
 import Message from "../molecules/Message";
 import CardHeader from "../organisms/CardHeader";
 import UserDataEditor from "../organisms/UserDataEditor";
@@ -21,8 +23,11 @@ const EditHistoryPage = () => {
   return (
     <div className="card main-card">
       {/* maybe use state to preselect item in history? */}
-      <CardHeader back="/history" />
+      <CardHeader />
       <div className="card-content">
+        <FlagButtons>
+          <BackFlagButton to="/history" />
+        </FlagButtons>
         {entry ? (
           <>
             <div className="field">
