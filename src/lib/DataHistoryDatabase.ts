@@ -1,4 +1,5 @@
 import Dexie from "dexie";
+import "dexie-observable";
 import { IUserData } from "../components/AppContext";
 import { IPrices } from "./dataSource";
 
@@ -14,7 +15,7 @@ class DataHistoryDatabase extends Dexie {
 
   public constructor() {
     super("dataHistory");
-    this.version(1).stores({
+    this.version(2).stores({
       entries: "++id,timestamp",
     });
     this.entries = this.table("entries");

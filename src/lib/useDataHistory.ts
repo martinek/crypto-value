@@ -11,6 +11,8 @@ interface IDataHistory {
 }
 
 const DB = {
+  database,
+
   addEntry: (entry: IDataHistoryEntry) => {
     return database.transaction("rw", database.entries, async () => database.entries.add({ ...entry }));
   },
@@ -50,29 +52,33 @@ const useDataHistory = (): IDataHistory => {
   useEffect(() => {
     if (!isSupported) return;
 
-    DB.getEntries().then(setHistory);
+    const { database, getEntries } = DB;
+
+    const updateHistory = () => getEntries().then(setHistory);
+    database.on("changes", updateHistory);
+    updateHistory();
+
+    return () => {
+      database.on("changes").unsubscribe(updateHistory);
+    };
   }, []);
 
   const addEntry = async (entry: IDataHistoryEntry) => {
     if (!isSupported) return Promise.reject(HistoryNotSupportedError);
 
-    const entryId = await DB.addEntry(entry);
-    setHistory(await DB.getEntries());
-    return entryId;
+    return DB.addEntry(entry);
   };
 
   const removeEntry = async (entry: IDataHistoryEntry) => {
     if (!isSupported) return Promise.reject(HistoryNotSupportedError);
 
-    await DB.removeEntry(entry);
-    setHistory(await DB.getEntries());
+    return DB.removeEntry(entry);
   };
 
   const editEntry = async (key: number, entry: Partial<IDataHistoryEntry>) => {
     if (!isSupported) return Promise.reject(HistoryNotSupportedError);
 
-    await DB.editEntry(key, entry);
-    setHistory(await DB.getEntries());
+    DB.editEntry(key, entry);
   };
 
   const importEntries = async (entries: IDataHistoryEntry[]) => {
