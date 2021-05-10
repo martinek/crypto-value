@@ -24,6 +24,7 @@ const HistoryPage = () => {
   // cap entry index to range of history
   const currentEntryIndex = Math.max(0, Math.min(iCurrentEntryIndex, history.length - 1));
   const currentEntry: IDataHistoryEntry | undefined = history[currentEntryIndex];
+  const prevEntry: IDataHistoryEntry | undefined = history[currentEntryIndex + 1];
 
   const confirmDelete = (entry: IDataHistoryEntry) => {
     if (window.confirm("Are you sure you want to delete this entry? Entry data will be lost forever!")) {
@@ -71,7 +72,7 @@ const HistoryPage = () => {
             />
             <hr />
             {view === "list" ? (
-              <HistoryEntryListView entry={currentEntry} onDelete={confirmDelete} />
+              <HistoryEntryListView entry={currentEntry} previousEntry={prevEntry} onDelete={confirmDelete} />
             ) : view === "pie" ? (
               <HistoryEntryPieView entry={currentEntry} />
             ) : null}

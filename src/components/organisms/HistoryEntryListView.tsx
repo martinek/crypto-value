@@ -5,27 +5,28 @@ import CalculatorView from "../molecules/CalculatorView";
 
 interface IProps {
   entry: IDataHistoryEntry;
+  previousEntry?: IDataHistoryEntry;
   onDelete?: (entry: IDataHistoryEntry) => void;
 }
 
-const HistoryEntryListView = ({ entry, onDelete }: IProps) => {
-  return (
-    <>
-      <CalculatorView data={buildViewData(entry.userData, entry.prices)} />
-      <div className="is-flex is-justify-content-space-between">
-        {onDelete ? (
-          <button className="button is-small is-danger" onClick={() => onDelete(entry)}>
-            Delete
-          </button>
-        ) : (
-          <div />
-        )}
-        <Link to={`/edit-history/${entry.id}`} className="button is-small is-default">
-          Edit
-        </Link>
-      </div>
-    </>
-  );
-};
+const HistoryEntryListView = ({ entry, previousEntry, onDelete }: IProps) => (
+  <>
+    <CalculatorView
+      data={buildViewData(entry.userData, entry.prices, previousEntry?.userData, previousEntry?.prices)}
+    />
+    <div className="is-flex is-justify-content-space-between">
+      {onDelete ? (
+        <button className="button is-small is-danger" onClick={() => onDelete(entry)}>
+          Delete
+        </button>
+      ) : (
+        <div />
+      )}
+      <Link to={`/edit-history/${entry.id}`} className="button is-small is-default">
+        Edit
+      </Link>
+    </div>
+  </>
+);
 
 export default HistoryEntryListView;

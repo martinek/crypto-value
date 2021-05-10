@@ -9,7 +9,8 @@ import HistoryFlagButtons from "../organisms/HistoryFlagButtons";
 import InfoFlagButton from "../organisms/InfoFlagButton";
 
 const CalculatorPage = () => {
-  const { prices, setPrices, userData } = useAppContext();
+  const { prices, setPrices, userData, history } = useAppContext();
+  const prevEvent = history.history[0];
   const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(false);
 
@@ -33,7 +34,7 @@ const CalculatorPage = () => {
     }
   }, [fetchPrices]);
 
-  const viewData = buildViewData(userData, prices);
+  const viewData = buildViewData(userData, prices, prevEvent?.userData, prevEvent?.prices);
 
   return (
     <div className="card main-card">
