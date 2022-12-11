@@ -1,5 +1,4 @@
-import { fetchPrice, IPrices } from "../../lib/dataSource";
-import { IUserData, IUserItem } from "../AppContext";
+import { fetchPrice } from "../../lib/dataSource";
 import ItemForm from "../molecules/ItemForm";
 
 interface IProps {

@@ -1,6 +1,5 @@
 import cx from "classnames";
 import { useState } from "react";
-import { IUserItem } from "../AppContext";
 
 interface IProps {
   item: IUserItem;

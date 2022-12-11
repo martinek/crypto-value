@@ -1,14 +1,16 @@
 import { useCallback, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { fetchPrices as iFetchPrices } from "../../lib/dataSource";
 import { buildViewData } from "../../lib/helpers";
 import { useAppContext } from "../AppContext";
 import CalculatorView from "../molecules/CalculatorView";
+import FlagButtons, { FlagButton } from "../molecules/FlagButtons";
 import CardHeader from "../organisms/CardHeader";
-import HistoryFlag from "../organisms/HistoryFlag";
+import HistoryFlagButtons from "../organisms/HistoryFlagButtons";
+import InfoFlagButton from "../organisms/InfoFlagButton";
 
 const CalculatorPage = () => {
-  const { prices, setPrices, userData } = useAppContext();
+  const { prices, setPrices, userData, history } = useAppContext();
+  const prevEvent = history.history[0];
   const [error, setError] = useState<Error>();
   const [loading, setLoading] = useState(false);
 
@@ -22,7 +24,7 @@ const CalculatorPage = () => {
       [userData.tSym]
     )
       .then(setPrices)
-      .catch(setError)
+      .catch((e) => setError(new Error(`Could not load prices\n${e?.message || e}`)))
       .finally(() => setLoading(false));
   }, [userData]);
 
@@ -32,24 +34,19 @@ const CalculatorPage = () => {
     }
   }, [fetchPrices]);
 
-  const viewData = buildViewData(userData, prices);
+  const viewData = buildViewData(userData, prices, prevEvent?.userData, prevEvent?.prices);
 
   return (
     <div className="card main-card">
-      <CardHeader>
-        <a className="card-header-icon has-text-primary" title="Reload price data" onClick={() => fetchPrices()}>
-          <span className="icon">
-            <span className="fas fa-sync" />
-          </span>
-        </a>
-        <Link className="card-header-icon has-text-primary" to="/edit">
-          <span className="icon">
-            <span className="fas fa-cog" />
-          </span>
-        </Link>
-      </CardHeader>
+      <CardHeader />
       <div className="card-content">
-        <HistoryFlag />
+        <FlagButtons>
+          <InfoFlagButton />
+          <FlagButton icon="sync" title="Reload price data" onClick={() => fetchPrices()} />
+          <FlagButton icon="cog" title="Edit user data" to="/edit" />
+          <HistoryFlagButtons />
+        </FlagButtons>
+
         <CalculatorView data={viewData} loading={loading} error={error} />
       </div>
     </div>

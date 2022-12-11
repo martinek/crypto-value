@@ -1,15 +1,18 @@
 import { useEffect, useState } from "react";
 import database, { IDataHistoryEntry } from "./DataHistoryDatabase";
 
-interface IDataHistory {
+export interface IDataHistory {
   isSupported: boolean;
   history: IDataHistoryEntry[];
   addEntry: (entry: IDataHistoryEntry) => Promise<number>;
   removeEntry: (entry: IDataHistoryEntry) => Promise<void>;
   editEntry: (key: number, entry: Partial<IDataHistoryEntry>) => Promise<number | undefined>;
+  importEntries: (entries: IDataHistoryEntry[]) => Promise<void>;
 }
 
 const DB = {
+  database,
+
   addEntry: (entry: IDataHistoryEntry) => {
     return database.transaction("rw", database.entries, async () => database.entries.add({ ...entry }));
   },
@@ -31,6 +34,13 @@ const DB = {
       return database.entries.put({ ...existingEntry, ...entry }, key);
     });
   },
+
+  importEntries: (entries: IDataHistoryEntry[]) => {
+    return database.transaction("rw", database.entries, async () => {
+      await database.entries.clear();
+      return database.entries.bulkPut(entries);
+    });
+  },
 };
 
 const HistoryNotSupportedError = new Error("History is not supported on this browser");
@@ -42,29 +52,39 @@ const useDataHistory = (): IDataHistory => {
   useEffect(() => {
     if (!isSupported) return;
 
-    DB.getEntries().then(setHistory);
+    const { database, getEntries } = DB;
+
+    const updateHistory = () => getEntries().then(setHistory);
+    database.on("changes", updateHistory);
+    updateHistory();
+
+    return () => {
+      database.on("changes").unsubscribe(updateHistory);
+    };
   }, []);
 
   const addEntry = async (entry: IDataHistoryEntry) => {
     if (!isSupported) return Promise.reject(HistoryNotSupportedError);
 
-    const entryId = await DB.addEntry(entry);
-    setHistory(await DB.getEntries());
-    return entryId;
+    return DB.addEntry(entry);
   };
 
   const removeEntry = async (entry: IDataHistoryEntry) => {
     if (!isSupported) return Promise.reject(HistoryNotSupportedError);
 
-    await DB.removeEntry(entry);
-    setHistory(await DB.getEntries());
+    return DB.removeEntry(entry);
   };
 
   const editEntry = async (key: number, entry: Partial<IDataHistoryEntry>) => {
     if (!isSupported) return Promise.reject(HistoryNotSupportedError);
 
-    await DB.editEntry(key, entry);
-    setHistory(await DB.getEntries());
+    DB.editEntry(key, entry);
+  };
+
+  const importEntries = async (entries: IDataHistoryEntry[]) => {
+    if (!isSupported) return Promise.reject(HistoryNotSupportedError);
+
+    DB.importEntries(entries);
   };
 
   return {
@@ -73,6 +93,7 @@ const useDataHistory = (): IDataHistory => {
     addEntry,
     removeEntry,
     editEntry,
+    importEntries,
   };
 };
 

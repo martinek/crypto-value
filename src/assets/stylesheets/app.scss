@@ -29,17 +29,13 @@
   margin: 0 auto;
 }
 
-.card-header-icon {
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-}
+.card-header-title a {
+  display: inline-flex;
+  align-items: center;
 
-.card-header-title a svg {
-  margin-right: 0.5em;
-}
-
-.info-icon {
-  margin-left: 0.5em;
+  svg {
+    margin-right: 0.5em;
+  }
 }
 
 .item,
@@ -150,8 +146,34 @@
   }
 }
 
+.flag-buttons {
+  position: absolute;
+  left: 100%;
+  background-color: white;
+  border-radius: $box-radius;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  box-shadow: $box-shadow;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  hr {
+    background-color: $border;
+    margin: 0;
+    height: 1px;
+    width: 30px;
+  }
+}
+
 @media screen and (max-width: 425px) {
+  .layout-container {
+    justify-content: flex-start;
+  }
+
   .layout-container__body {
+    flex: 0;
     padding: 0;
   }
 
@@ -160,17 +182,27 @@
     border-radius: 0;
   }
 
+  .card-header {
+    display: none;
+  }
+
   .donation-info img {
     max-width: 100%;
   }
-}
 
-.history-flag {
-  position: absolute;
-  left: 100%;
-  background-color: white;
-  border-radius: $box-radius;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
-  box-shadow: $box-shadow;
+  .flag-buttons {
+    position: relative;
+    left: 0;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: -1.5rem;
+    margin-bottom: 1.5rem;
+    border-radius: 0;
+    box-shadow: $card-header-shadow;
+
+    hr {
+      width: 1px;
+      height: 30px;
+    }
+  }
 }

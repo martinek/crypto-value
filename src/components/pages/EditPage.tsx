@@ -1,8 +1,10 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router";
 import { useAppContext } from "../AppContext";
+import BackFlagButton from "../molecules/BackFlagButton";
+import FlagButtons, { FlagButton } from "../molecules/FlagButtons";
 import { useModalState } from "../molecules/Modal";
-import BackupInfoModal from "../organisms/BackupInfoModal";
+import BackupUserDataModal from "../organisms/BackupUserDataModal";
 import CardHeader from "../organisms/CardHeader";
 import UserDataEditor from "../organisms/UserDataEditor";
 
@@ -20,18 +22,17 @@ const EditPage = () => {
   return (
     <>
       <div className="card main-card">
-        <CardHeader back="/">
-          <a className="card-header-icon has-text-primary" onClick={open}>
-            <span className="icon">
-              <span className="fas fa-download" />
-            </span>
-          </a>
-        </CardHeader>
+        <CardHeader />
         <div className="card-content">
+          <FlagButtons>
+            <BackFlagButton />
+            <FlagButton icon="download" title="Backup user data" onClick={open} />
+          </FlagButtons>
+
           <UserDataEditor userData={userData} onChange={setUserData} />
         </div>
       </div>
-      <BackupInfoModal {...modalProps} />
+      <BackupUserDataModal {...modalProps} />
     </>
   );
 };
