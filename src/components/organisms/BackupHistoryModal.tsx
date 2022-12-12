@@ -24,7 +24,7 @@ const BackupHistoryModal = (props: IModalProps) => {
       console.log("Import history", newHistory);
       importEntries(newHistory);
     } catch (error) {
-      setError(new Error(`Could not deserialize data\n${error?.message || error}`));
+      setError(new Error(`Could not deserialize data\n${(error as any)?.message || error}`));
     }
   };
 

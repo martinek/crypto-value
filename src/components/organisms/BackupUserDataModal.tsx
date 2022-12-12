@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { deserializeUserData, serializeUserData } from "../../lib/dataSource";
 import { useAppContext } from "../AppContext";
 import ErrorDisplay from "../molecules/ErrorDisplay";
@@ -9,7 +9,8 @@ import Modal, { IModalProps } from "../molecules/Modal";
 const BackupUserDataModal = (props: IModalProps) => {
   const { userData, setUserData } = useAppContext();
   const location = useLocation();
-  const history = useHistory();
+  const navigate = useNavigate();
+
   const hash = location.hash.substr(1);
 
   const [data, setData] = useState("");
@@ -29,9 +30,9 @@ const BackupUserDataModal = (props: IModalProps) => {
       const newUserData = deserializeUserData(data);
       console.log("Import user data", newUserData);
       setUserData(newUserData);
-      history.replace(location.pathname);
+      navigate(location.pathname, { replace: true });
     } catch (error) {
-      setError(new Error(`Could not deserialize data\n${error?.message || error}`));
+      setError(new Error(`Could not deserialize data\n${(error as any)?.message || error}`));
     }
   };
 
